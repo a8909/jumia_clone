@@ -1,24 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import {getAuthPayload} from '../../src/services/localStorage'
-import { PersonIcon } from '../assets/images/icons'
-import { CartIcon } from '../assets/images/icons'
-import { QuestionIcon } from '../assets/images/icons'
-import { DropdownIcon } from '../assets/images/icons'
-
-
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getAuthPayload } from "../../src/services/localStorage";
+import { PersonIcon } from "../assets/images/icons";
+import { CartIcon } from "../assets/images/icons";
+import { QuestionIcon } from "../assets/images/icons";
+import { DropdownIcon } from "../assets/images/icons";
 
 const SideBar = () => {
-    const [name, setName] = useState("");
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState("auto");
+  const [lastScrollY, setLastscrollY] = useState<number>(0);
 
-    useEffect(() => {
-      const parsedPayload = getAuthPayload();
-      setName(parsedPayload?.username)
-    }, [name]);
+  const handleScroll = () => {
+    const currentScroll = window.scrollY;
+    if (lastScrollY > currentScroll) {
+      setHeight("auto");
+    } else {
+      setHeight("0");
+    }
+    setLastscrollY(currentScroll);
+  };
+
+  useEffect(() => {
+    const parsedPayload = getAuthPayload();
+    console.log(parsedPayload);
+    setName(parsedPayload?.username);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
   return (
-    <div>
+    <div className="jumia-big">
       <div className="jumia-container">
-        <div className="jumia-inner d-flex justify-content-around align-items-center">
+        <div
+          className={`${
+            height === "0" ? "invisible" : "visible"
+          } jumia-inner d-flex justify-content-around align-items-center`}
+          style={{ height: height, transition: "height 0.3s ease-out" }}
+        >
           <div className="jumia-icon ">
             {/* <img src="" alt="" /> */}
             <Link to="/">Sell on Jumia</Link>
@@ -60,6 +80,6 @@ const SideBar = () => {
       </div>
     </div>
   );
-}
+};
 
-export default SideBar
+export default SideBar;

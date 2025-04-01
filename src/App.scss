@@ -20,18 +20,19 @@ $jumia-color: #f1f1f2;
 
 .jumia{
     &-inner{
-        height: 50px;
         background-color: $jumia-color;
+    }
+    &-big{
         position: sticky;
+        z-index: 1000;
+        top: 0;
+        height: 75px;
+        margin-bottom: 71px;
     }
     &-header{
         background-color: $white;
-        position: sticky;
-        height: 75px;
-        z-index: 1000;
-        top: 0;
         &-inner{
-        gap: 95px;
+        gap: 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -46,4 +47,18 @@ $jumia-color: #f1f1f2;
         border: $app-color;
         width: 95px;
     }
+    &-product, &-pack{ 
+        width: 206px;
+        background-color: $white;
+    }
+    &-pack{
+        background-color: $app-color;
+    }
+    &-display > img{
+        height: 500px;
+    }
+}
+
+.resize{
+    height: 240px !important;
 }

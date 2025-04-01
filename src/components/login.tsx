@@ -30,7 +30,7 @@ const Login = () => {
           <div className="auth-inputs d-flex flex-column position-relative gap-2">
             <label htmlFor="username">Username</label>
             <input
-              className="form-control bg-info bg-opacity-10"
+              className="form-control bg-info bg-opacity-10 fw-semibold fs-5"
               type="text"
               id="username"
               placeholder="Username"
@@ -46,7 +46,7 @@ const Login = () => {
               type="text"
               id="password"
               placeholder="Password"
-              className="form-control bg-info bg-opacity-10"
+              className="form-control bg-info bg-opacity-10 fw-semibold fs-5"
               {...register("password", { required: true })}
             />
             {touchedFields.password && !dirtyFields.password && (

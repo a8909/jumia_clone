@@ -1,3 +1,6 @@
+import { categoriesModel } from "../interfaces/allCategories";
+import { getToken } from "./localStorage";
+
 export interface userLogin{
     username : string,
     password : string
@@ -14,7 +17,7 @@ export interface userResponse{
     refreshToken : string,
     username : string,
 }
-
+const token = getToken();
 export const authUser = async (postData: userLogin) => {
 
     try {
@@ -23,6 +26,7 @@ export const authUser = async (postData: userLogin) => {
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
+            "Authorization" : `Bearer ${token}`
           },
           body: JSON.stringify(postData),
         });
@@ -33,4 +37,16 @@ export const authUser = async (postData: userLogin) => {
         
     }
     
+}
+
+export const getAllCategories = async() => {
+    try {
+        const response = await fetch(
+          " https://api.escuelajs.co/api/v1/categories"
+        );
+        const data: categoriesModel[]  = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`${error}, check your internet connectivity`);
+    }
 }

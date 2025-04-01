@@ -1,0 +1,36 @@
+import React from "react";
+import ProductTemplate from "./productTemplate";
+import beautyWeek from "../../src/assets/images/BEAUTY_WEEK.jpg";
+import { allProduct, jumiaDeals } from "../interfaces/allCategories";
+
+const Awoof = () => {
+  return (
+    <>
+      <div className="jumia-product d-flex flex-column p-3 gap-3 rounded">
+        {allProduct.map((product, index) => (
+          <ProductTemplate
+            key={index}
+            children={product.icon}
+            productName={product.productName}
+            isAwoof={product.isAwoof}
+            awoof={product.awoof}
+          />
+        ))}
+      </div>
+      <div className="jumia-display">
+        <img src={beautyWeek} alt="" />
+      </div>
+      <div className="jumia-packages d-flex flex-column justify-content-between gap-1">
+        <div className="jumia-product resize d-flex flex-column justify-content-center p-3 gap-3 rounded">
+          {jumiaDeals.map((deals, index)=> <ProductTemplate key={index} children={deals.icon} productName={deals.productName} isAwoof={deals.isAwoof} awoof={deals.awoof} />)}
+        </div>
+        <div className="jumia-pack resize rounded p-3 d-flex flex-column align-items-center justify-content-center gap-2">
+          <h1 className="text-center">JUMIA FORCE</h1>
+          <h4>JOIN NOW</h4>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Awoof;
