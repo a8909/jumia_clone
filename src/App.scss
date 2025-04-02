@@ -19,8 +19,18 @@ $jumia-color: #f1f1f2;
 }
 
 .jumia{
+    &-logo > img{
+        position: fixed;
+        left: 50% !important;
+        top: 400px;
+        z-index: 1000;
+        animation: spin 2s linear infinite;
+    }
     &-inner{
         background-color: $jumia-color;
+        &-product >h5{
+            max-width: 200px
+        }
     }
     &-big{
         position: sticky;
@@ -32,7 +42,7 @@ $jumia-color: #f1f1f2;
     &-header{
         background-color: $white;
         &-inner{
-        gap: 20px;
+        gap: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -61,4 +71,18 @@ $jumia-color: #f1f1f2;
 
 .resize{
     height: 240px !important;
+}
+.full{
+    width: 100%;
+    justify-content: center !important;
+}
+
+
+@keyframes spin{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
 }

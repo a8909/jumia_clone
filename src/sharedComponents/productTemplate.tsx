@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
-import  {categoriesModel}  from '../interfaces/allCategories';
 interface templateProps {
-  children: string ;
+  children?: string ;
   productName: string;
   isAwoof: boolean;
   awoof: string | null

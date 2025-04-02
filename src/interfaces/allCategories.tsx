@@ -1,7 +1,15 @@
 export interface categoriesModel{
     slug: string;
     name: string;
-    image: string;
+    image?: string;
+}
+
+export interface allProduct{
+  price: number;
+  images: Array<string>;
+  title: string;
+  description: string;
+  id: number;
 }
 
 export const allProduct = [
