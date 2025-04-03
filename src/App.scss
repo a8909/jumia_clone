@@ -77,6 +77,11 @@ $jumia-color: #f1f1f2;
     justify-content: center !important;
 }
 
+.cursor:hover{
+    cursor: pointer;
+    color: $app-color;
+}
+
 
 @keyframes spin{
     from{

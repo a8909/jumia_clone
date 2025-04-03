@@ -15,5 +15,5 @@ export const authPayload = (payload : userResponse) => {
 }
 
 export const getAuthPayload = () => {
-    return JSON.parse(localStorage.getItem('authPayload') || '{}');
-}
+  return JSON.parse(localStorage.getItem("authPayload") || "{}");
+};

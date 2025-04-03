@@ -51,16 +51,6 @@ export const getAllCategories = async() => {
     }
 }
 
-// description: "Experience the perfect blend of comfort and style with our Classic Comfort Drawstring Joggers. Designed for a relaxed fit, these joggers feature a soft, stretchable fabric, convenient side pockets, and an adjustable drawstring waist with elegant gold-tipped detailing. Ideal for lounging or running errands, these pants will quickly become your go-to for effortless, casual wear.";
-// id: 7;
-// images: (2)[
-//   ("https://i.imgur.com/mp3rUty.jpeg", "https://i.imgur.com/JQRGIc2.jpeg")
-// ];
-// price: 79;
-// slug: "classic-comfort-drawstring-joggers";
-// title: "Classic Comfort Drawstring Joggers";
-// updatedAt: "2025-04-01T16:36:05.000Z";
-
 export const getAllProducts = async() => {
     try {
         const response = await fetch(

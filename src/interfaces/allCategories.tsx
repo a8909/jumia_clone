@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface categoriesModel{
     slug: string;
     name: string;
@@ -10,6 +12,12 @@ export interface allProduct{
   title: string;
   description: string;
   id: number;
+}
+
+export interface account{
+  icon: ReactNode;
+  name: string;
+  isHelp?: boolean
 }
 
 export const allProduct = [
@@ -107,3 +115,37 @@ export const jumiaDeals = [
     awoof: null,
   },
 ];
+
+export const userAccount =  [
+  {
+    icon: '',
+    name: 'My Account'
+  },
+  {
+    icon: '',
+    name: 'Orders'
+  },
+  {
+    icon: '',
+    name: 'Inbox'
+  },
+  {
+    icon: '',
+    name: 'Wishlist'
+  },
+  {
+    icon: '',
+    name: 'Voucher'
+  },
+]
+
+export const help = [
+  { name: "Help Center" },
+  { name: "Place an order" },
+  { name: "Payment options" },
+  { name: "Track an order" },
+  { name: "Cancel an order" },
+  { name: "Return & Refunds" },
+];
+  
+
