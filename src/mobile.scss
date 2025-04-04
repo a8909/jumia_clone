@@ -1,0 +1,17 @@
+
+.jumia-input{
+    @media(max-width: 1200px){
+        width: 100%;
+    }
+}
+
+.jumia-search{
+    @media(max-width: 840px){
+        display: none !important;
+    }
+}
+.jumia-header-inner{
+    @media(max-width: 840px){
+        width: 100%;
+    }
+}

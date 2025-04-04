@@ -7,6 +7,7 @@ export interface userLogin{
 }
 
 export interface userResponse{
+    [x: string]: any;
     accessToken : string,
     email : string,
     firstName: string,

@@ -9,7 +9,7 @@ const ProductTemplate:React.FC<templateProps> = ({children, productName, isAwoof
   // console.log(children);
   return (
     <div className={`${isAwoof ? "d-flex flex-column" : "d-flex"} gap-2`}>
-      { isAwoof ? <img src={children} style={{width: '250px', height: '250px'}} /> : children}
+      { isAwoof ? <img className='awoof pointer' src={children} /> : children}
       {isAwoof ? <h5>{awoof}</h5> : <span>{productName}</span>}
     </div>
   );

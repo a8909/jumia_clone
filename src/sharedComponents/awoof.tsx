@@ -6,7 +6,7 @@ import { allProduct, jumiaDeals } from "../interfaces/allCategories";
 const Awoof = () => {
   return (
     <>
-      <div className="jumia-product d-flex flex-column p-3 gap-3 rounded">
+      <div className="jumia-product d-flex flex-column p-3 gap-3 flex-fill rounded">
         {allProduct.map((product, index) => (
           <ProductTemplate
             key={index}
@@ -20,7 +20,7 @@ const Awoof = () => {
       <div className="jumia-display">
         <img src={beautyWeek} alt="" />
       </div>
-      <div className="jumia-packages d-flex flex-column justify-content-between gap-1">
+      <div className="jumia-packages d-flex flex-column justify-content-between flex-grow-1 gap-1">
         <div className="jumia-product resize d-flex flex-column justify-content-center p-3 gap-3 rounded">
           {jumiaDeals.map((deals, index)=> <ProductTemplate key={index} children={deals.icon} productName={deals.productName} isAwoof={deals.isAwoof} awoof={deals.awoof} />)}
         </div>

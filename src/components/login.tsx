@@ -7,18 +7,30 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [loading, isLoading] = useState<boolean>(false);
-    const {register, handleSubmit, formState: {errors, touchedFields, dirtyFields}, reset} = useForm<userLogin>({mode: 'onChange'});
+    const [newError, setnewError] = useState<boolean>(false);
+    const [hidePwd, sethidePwd] = useState<boolean>(false);
+    const [errorMessage, seterrorMessage] = useState("");
+    const {register, handleSubmit, formState: {errors}, reset} = useForm<userLogin>({mode: 'onChange'});
     const navigate = useNavigate();
 
     const handleLoginSubmit = async (userLoginDetails: userLogin) => {
       isLoading(true);
       const data = await authUser(userLoginDetails);
+      if (data.message === "Invalid credentials") {
+        seterrorMessage("Invaliid credentials");
+        isLoading(false);
+        setnewError(true);
+        reset();
+        return;
+      };
       authPayload(data);
       setToken(data.accessToken);
       reset();
       navigate('/dashboard');
       isLoading(false);
     };
+
+    const onpasswordDisplay = () => sethidePwd(!hidePwd);
 
   return (
     <div className="auth-container d-flex flex-column align-items-center gap-2 justify-content-center overflow-hidden">
@@ -34,26 +46,31 @@ const Login = () => {
               type="text"
               id="username"
               placeholder="Username"
-              {...register("username", { required: true })}
+              {...register("username", { required: 'username is required' })}
             />
-            {touchedFields.username && !dirtyFields.username && (
-              <span style={{ color: "red" }}>Invalid input</span>
+            {(errors.username ) && (
+              <span className='auth-error' >{errors.username.message}</span>
             )}
           </div>
           <div className="auth-inputs d-flex flex-column position-relative gap-2 mb-4">
             <label htmlFor="password">Password</label>
             <input
-              type="text"
+              type={ hidePwd ? 'text' : 'password'}
               id="password"
               placeholder="Password"
               className="form-control bg-info bg-opacity-10 fw-semibold fs-5"
-              {...register("password", { required: true })}
+              {...register("password", { required: 'password id required' })}
             />
-            {touchedFields.password && !dirtyFields.password && (
-              <span style={{ color: "red" }}>Invalid input</span>
+            <span className={`${errors.password ? 'new' : 'top-50'} position-absolute end-0 me-3 cursor`} onClick={onpasswordDisplay}>{ hidePwd ? 'Hide' : 'Show'}</span>
+            {errors.password &&(
+              <span className='auth-error' >{errors.password.message}</span>
             )}
           </div>
-          <div className="auth-error">{errors.root?.message}</div>
+          {newError && (
+            <div className="auth-error" >
+              {errorMessage}
+            </div>
+          )}
           <div className="auth-submit">
             <button
               className="auth-btn col-12 rounded p-3 fw-semibold"

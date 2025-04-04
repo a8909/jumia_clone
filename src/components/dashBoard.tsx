@@ -62,7 +62,7 @@ const DashBoard = () => {
       )}
 
       <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2">
-        <div className="jumia-awoof d-flex justify-content-center gap-4 m-auto">
+        <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
           <Awoof />
         </div>
         <div

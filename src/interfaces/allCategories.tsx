@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Account, Love, Voucher,Email,Order } from "../assets/images/icons";
 
 export interface categoriesModel{
     slug: string;
@@ -17,7 +18,8 @@ export interface allProduct{
 export interface account{
   icon: ReactNode;
   name: string;
-  isHelp?: boolean
+  isHelp?: boolean;
+  newPath: string;
 }
 
 export const allProduct = [
@@ -116,36 +118,56 @@ export const jumiaDeals = [
   },
 ];
 
-export const userAccount =  [
+export const userAccount = [
   {
-    icon: '',
-    name: 'My Account'
+    icon: <Account />,
+    name: "My Account",
+    path: "https://www.jumia.com.ng/customer/account/index/",
   },
   {
-    icon: '',
-    name: 'Orders'
+    icon: <Order/>,
+    name: "Orders",
+    path: "https://www.jumia.com.ng/customer/order/index/",
   },
   {
-    icon: '',
-    name: 'Inbox'
+    icon: <Email />,
+    name: "Inbox",
+    path: "https://www.jumia.com.ng/customer/account/inbox/",
   },
   {
-    icon: '',
-    name: 'Wishlist'
+    icon: <Love />,
+    name: "Wishlist",
+    path: "https://www.jumia.com.ng/customer/wishlist/index/",
   },
   {
-    icon: '',
-    name: 'Voucher'
+    icon: <Voucher />,
+    name: "Voucher",
+    path: "https://www.jumia.com.ng/customer/coupon/index/",
   },
-]
+];
 
 export const help = [
-  { name: "Help Center" },
-  { name: "Place an order" },
-  { name: "Payment options" },
-  { name: "Track an order" },
-  { name: "Cancel an order" },
-  { name: "Return & Refunds" },
+  { name: "Help Center", path: "https://www.jumia.com.ng/sp-help-center/" },
+  {
+    name: "Place an order",
+    path: "https://www.jumia.com.ng/sp-help-center/?page=place+an+order",
+  },
+  {
+    name: "Payment options",
+    path: "https://www.jumia.com.ng/sp-help-center/?page=pay+for+your+order",
+  },
+  {
+    name: "Track an order",
+    path: "https://www.jumia.com.ng/sp-help-center/?page=track+your+order",
+  },
+  {
+    name: "Cancel an order",
+    path: "https://www.jumia.com.ng/sp-help-center/?page=cancel+an+order",
+  },
+  {
+    name: "Return & Refunds",
+    path: "https://www.jumia.com.ng/sp-help-center/?page=create+a+return",
+  },
 ];
   
 

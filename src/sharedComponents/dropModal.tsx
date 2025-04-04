@@ -1,12 +1,12 @@
 import React from 'react'
 import { account } from '../interfaces/allCategories'
 
-const DropModal:React.FC<account> = ({icon, name, isHelp}) => {
+const DropModal:React.FC<account> = ({icon, name, isHelp, newPath}) => {
   return (
-    <div>
-        <div>
-            {isHelp ? null : <span>{icon}</span>}
-            <h6>{name}</h6>
+    <div className='pointer drop-account d-flex'>
+        <div >
+            {isHelp ? null : <span className='me-2'>{icon}</span>}
+            <a href={newPath}  className=' a-tag text-nowrap'>{name}</a>
         </div>
     </div>
   )

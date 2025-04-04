@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthPayload } from "../../src/services/localStorage";
+import { getAuthPayload, removeAuth } from "../../src/services/localStorage";
 import { PersonIcon } from "../assets/images/icons";
 import { CartIcon } from "../assets/images/icons";
 import { QuestionIcon } from "../assets/images/icons";
@@ -17,10 +17,10 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
   const [search, setSearch] = useState("");
   const [height, setHeight] = useState("auto");
   const [lastScrollY, setLastscrollY] = useState<number>(0);
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   const [currentTab, setcurrentTab] = useState<boolean>(false);
   const [showModal, setshowModal] = useState<boolean>(false);
- 
+
 
   const handleScroll = () => {
     const currentScroll = window.scrollY;
@@ -47,15 +47,18 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
 
   const handleClick = ()=> setshowModal(!showModal);
 
-  const handleAccount= ()=>{
+  const checkcurrentTab =(iscurrenttabActive: boolean)=>{
     handleClick();
-    setcurrentTab(true)
+    setcurrentTab(iscurrenttabActive);
   }
-  const handleHelp= ()=>{
-    handleClick();
-    setcurrentTab(false);
 
+  const onLogout =()=>{
+    removeAuth();
+    navigate('/login');
   }
+
+ 
+
   return (
     <div className="jumia-big">
       <div className="jumia-container">
@@ -86,7 +89,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
         </div>
         <div className="jumia-header d-flex justify-content-center">
           <div className="jumia-header-inner p-3 ">
-            <h1>
+            <h1 className="text-nowrap">
               JUMIA{" "}
               <img
                 src={jumiaLoogo}
@@ -110,41 +113,59 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
                 Search
               </button>
             </div>
-            <div
-              className="jumia-person cursor d-flex align-items-center gap-1"
-              onClick={handleAccount}
-            >
-              <PersonIcon />
-              <h4>Hi, {name}</h4>
-              <DropdownIcon />
-              {(showModal && currentTab) && (
-                <div>
-                  {userAccount.map((account, index) => (
-                    <DropModal
-                      key={index}
-                      icon={account.icon}
-                      name={account.name}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="jumia-help cursor d-flex align-items-center gap-1" onClick={handleHelp} >
-              <QuestionIcon />
-              <h4>Help</h4>
-              <DropdownIcon />
-              {(showModal && !currentTab ) && (
-                <div>
-                  {help.map((option, index)=><DropModal key={index} icon={undefined} name={option.name} isHelp={true} /> )}
-                </div>
-              )}
-            </div>
-            <div
-              className="jumia-cart cursor d-flex align-items-center gap-1"
-              onClick={oncartClicked}
-            >
-              <CartIcon />
-              <h4>Cart</h4>
+            <div className="jumia-account-container d-flex gap-2">
+              <div
+                className="jumia-person cursor d-flex align-items-center gap-1 position-relative"
+                onClick={() => checkcurrentTab(true)}
+              >
+                <PersonIcon />
+                <h6 className="text-nowrap">Hi, {name}</h6>
+                <DropdownIcon />
+                {showModal && currentTab && (
+                  <div className="jumia-account">
+                    {userAccount.map((account, index) => (
+                      <DropModal
+                        key={index}
+                        icon={account.icon}
+                        name={account.name}
+                        newPath={account.path}
+                      />
+                    ))}
+                    <h6 className="hr pointer" onClick={onLogout}>
+                      Logout
+                    </h6>
+                  </div>
+                )}
+              </div>
+              <div
+                className="jumia-help cursor d-flex align-items-center gap-1 position-relative"
+                onClick={() => checkcurrentTab(false)}
+              >
+                <QuestionIcon />
+                <h6>Help</h6>
+                <DropdownIcon />
+                {showModal && !currentTab && (
+                  <div className="jumia-account">
+                    {help.map((option, index) => (
+                      <DropModal
+                        key={index}
+                        icon={undefined}
+                        name={option.name}
+                        isHelp={true}
+                        newPath={option.path}
+                      />
+                    ))}
+                    <button className="hr">Live Chat</button>
+                  </div>
+                )}
+              </div>
+              <div
+                className="jumia-cart cursor d-flex align-items-center gap-1"
+                onClick={oncartClicked}
+              >
+                <CartIcon />
+                <h6>Cart</h6>
+              </div>
             </div>
           </div>
         </div>

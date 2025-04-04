@@ -1,5 +1,8 @@
 
+import { useState } from "react";
 import { userResponse } from "./authService";
+
+const currentToken = false;
 
 
 export const setToken =(token: string) => {
@@ -10,6 +13,10 @@ export const getToken =() => {
     return localStorage.getItem('accessToken');
 }
 
+// export const isuserLoggedin =()=>{
+//     if(getToken()) return !!currentToken;
+// }
+
 export const authPayload = (payload : userResponse) => {
     localStorage.setItem('authPayload', JSON.stringify(payload));
 }
@@ -17,3 +24,8 @@ export const authPayload = (payload : userResponse) => {
 export const getAuthPayload = () => {
   return JSON.parse(localStorage.getItem("authPayload") || "{}");
 };
+
+export const removeAuth = () =>{
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('authPayload');
+}
