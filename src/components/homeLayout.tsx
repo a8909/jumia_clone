@@ -4,12 +4,12 @@ import Footer from '../sharedComponents/footer'
 
 interface layout {
     children: ReactNode;
-    onSearch: (e:FormEvent, search: string)=> void;
+    onSearch : (e:FormEvent, search: string)=> void;
 }
 const HomeLayout:React.FC<layout> = ({children, onSearch}) => {
   return (
     <div>
-        <SideBar onClick={onSearch} />
+        <SideBar onClick={onSearch}/>
         {children}
         <Footer />
     </div>

@@ -6,7 +6,15 @@ const currentToken = false;
 
 
 export const setToken =(token: string) => {
-    localStorage.setItem('accessToken', token)
+    localStorage.setItem('accessToken', token);
+}
+
+export const setValue =(sessionKey: string, sessionValue: string) => {
+    sessionStorage.setItem(sessionKey, sessionValue);
+}
+
+export const getValue =(sessionKey: string) => {
+    return sessionStorage.getItem(sessionKey) || '';
 }
 
 export const getToken =() => {

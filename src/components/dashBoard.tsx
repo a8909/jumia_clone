@@ -3,10 +3,16 @@ import HomeLayout from './homeLayout'
 import ProductTemplate from '../sharedComponents/productTemplate'
 
 import { allProduct, categoriesModel } from '../interfaces/allCategories';
-import { getAllCategories, getAllProducts } from '../services/authService';
+import {
+  getAllCategories,
+  getAllProducts,
+  singleitemProduct,
+} from "../services/authService";
 import Awoof from '../sharedComponents/awoof';
 import Products from '../sharedComponents/products';
 import jumiaLoogo from '../../src/assets/images/jumiaLogo.png';
+import { useNavigate } from 'react-router-dom';
+import { setValue } from '../services/localStorage';
 
 const DashBoard = () => {
   const [categories, setCategories] = useState<categoriesModel[]>([]);
@@ -14,6 +20,9 @@ const DashBoard = () => {
   const [isloading, setIsloading] = useState<boolean>(false);
   const [isFilter, setIsfiltering] = useState<boolean>(false);
   const [filtered, setfiltered] = useState<allProduct[]>([]);
+  const [currentSearch, setCurrentSearch] = useState('');
+  const navigate = useNavigate();
+  
 
   const getCategories = async() => {
     setIsloading(true);
@@ -29,9 +38,9 @@ const DashBoard = () => {
   }
   const handleSearch =(e: FormEvent, search: string)=>{
     e.preventDefault();
-    console.log(search);
     if(search === ''){
-      setfiltered(filtered);
+      setfiltered(product);
+      setCurrentSearch(search);
       setIsfiltering(false);
       return ;
     }else{
@@ -45,12 +54,20 @@ const DashBoard = () => {
 
   }
 
+  const onproductClick = async(productSlug: string) => {
+    const data = await singleitemProduct(productSlug);
+    const { slug } = data;
+    setValue('PRDUCTSLUG', slug);
+    navigate(`/dashboard/slug/${slug}`);
+  }
+
   useEffect(()=> {
     getCategories();
     getProducts();
   }, [])
+
   return (
-    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)}>
+    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} >
       {isloading && (
         <div className="jumia-logo position-relative">
           <img
@@ -91,14 +108,16 @@ const DashBoard = () => {
           )}
         </div>
         <div className="jumia-products d-flex flex-wrap justify-content-center gap-2">
-          {(isFilter ? filtered : product).map((item, index) => (
+          {((isFilter && currentSearch !== '') ? filtered : product).map((item, index) => (
             <Products
               key={index}
               price={item.price}
               images={item.images}
               title={item.title}
-              description={""}
+              slug={item.slug}
+              description={item.description}
               id={item.id}
+              onClick={()=> onproductClick(item.slug)}
             />
           ))}
         </div>

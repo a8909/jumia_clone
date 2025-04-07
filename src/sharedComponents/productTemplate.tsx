@@ -6,7 +6,7 @@ interface templateProps {
   awoof: string | null
 }
 const ProductTemplate:React.FC<templateProps> = ({children, productName, isAwoof, awoof}) => {
-  // console.log(children);
+  
   return (
     <div className={`${isAwoof ? "d-flex flex-column" : "d-flex"} gap-2`}>
       { isAwoof ? <img className='awoof pointer' src={children} /> : children}

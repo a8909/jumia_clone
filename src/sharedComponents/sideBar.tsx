@@ -57,6 +57,10 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
     navigate('/login');
   }
 
+  const home =()=>{
+    navigate('/dashboard')
+  }
+
  
 
   return (
@@ -89,7 +93,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
         </div>
         <div className="jumia-header d-flex justify-content-center">
           <div className="jumia-header-inner p-3 ">
-            <h1 className="text-nowrap">
+            <h1 className="text-nowrap point" onClick={home}>
               JUMIA{" "}
               <img
                 src={jumiaLoogo}

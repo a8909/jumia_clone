@@ -63,3 +63,16 @@ export const getAllProducts = async() => {
         throw new Error(`${error}`);
     } 
 }
+
+export const singleitemProduct = async(slug: string) =>{
+    try {
+        const response = await fetch(
+          `https://api.escuelajs.co/api/v1/products/slug/${slug}`
+        );
+        const data: allProduct = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(`${error}`);
+    }
+    
+}

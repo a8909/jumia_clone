@@ -65,6 +65,7 @@ $jumia-color: #f1f1f2;
     &-product, &-pack{ 
         width: 206px;
         background-color: $white;
+        
     }
     &-pack{
         background-color: $app-color;
@@ -81,6 +82,12 @@ $jumia-color: #f1f1f2;
         border-radius: 3px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
+    &-products{
+    &-container{
+            max-width: 1020px;
+            margin: auto;
+        }
+}
 }
 
 .resize{
@@ -112,6 +119,10 @@ $jumia-color: #f1f1f2;
     width: 110px;
 }
 
+.point{
+    cursor: pointer;
+}
+
 .pointer, a{
     cursor: pointer;
     text-decoration: none !important;
@@ -141,6 +152,11 @@ $jumia-color: #f1f1f2;
         border: 1px solid $app-color;
     }
 }
+
+.carousel{
+    max-width: 725px;
+}
+
 
 @keyframes spin{
     from{

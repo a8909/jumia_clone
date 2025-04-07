@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import { Account, Love, Voucher,Email,Order } from "../assets/images/icons";
+import beautyWeek from "../../src/assets/images/BEAUTY_WEEK.jpg";
+import jumiaBackground from "../../src/assets/images/jumiaBackground.png";
 
 export interface categoriesModel{
     slug: string;
@@ -10,9 +12,11 @@ export interface categoriesModel{
 export interface allProduct{
   price: number;
   images: Array<string>;
+  slug: string;
   title: string;
   description: string;
   id: number;
+  onClick ?: ()=> void;
 }
 
 export interface account{
@@ -22,7 +26,7 @@ export interface account{
   newPath: string;
 }
 
-export const allProduct = [
+export const allProducts = [
   {
     icon: "", //note his should be an icon
     productName: "Appliances",
@@ -169,5 +173,14 @@ export const help = [
     path: "https://www.jumia.com.ng/sp-help-center/?page=create+a+return",
   },
 ];
+
+export const carouselImages = [
+  jumiaBackground,
+  beautyWeek,
+  beautyWeek,
+  beautyWeek,
+  beautyWeek,
+  beautyWeek
+]
   
 
