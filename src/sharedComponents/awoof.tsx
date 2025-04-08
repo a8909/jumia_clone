@@ -19,8 +19,7 @@ const Awoof = () => {
         ))}
       </div>
       <div className="jumia-display">
-        <img src={beautyWeek} alt="" />
-        {/* <Carousel /> */}
+        <Carousel />
       </div>
       <div className="jumia-packages d-flex flex-column justify-content-between flex-grow-1 gap-1">
         <div className="jumia-product resize d-flex flex-column justify-content-center p-3 gap-3 rounded">

@@ -20,6 +20,9 @@ $jumia-color: #f1f1f2;
     &-error{
         color: red;
     }
+    &-hint{
+        
+    }
 }
 
 .jumia{
@@ -70,8 +73,23 @@ $jumia-color: #f1f1f2;
     &-pack{
         background-color: $app-color;
     }
-    &-display > img{
-        height: 500px;
+    &-display{
+        .carousel{
+            max-width: 948px;
+            &-image{
+                height: 500px;
+                width: 100%;  
+            }
+            &-items{
+                opacity: 0;
+                transition: opacity 1s ease-in-out;
+                &.fade-in{
+                    opacity: 1;
+                }
+            }
+            
+        }
+        
     }
     &-account{
         position: absolute;
@@ -152,11 +170,6 @@ $jumia-color: #f1f1f2;
         border: 1px solid $app-color;
     }
 }
-
-.carousel{
-    max-width: 725px;
-}
-
 
 @keyframes spin{
     from{

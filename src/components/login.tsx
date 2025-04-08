@@ -85,7 +85,10 @@ const Login = () => {
               )}
             </button>
           </div>
-        </form>
+          <span className="auth-hint fs-6 fw-semibold rounded bg-body-secondary p-3">
+            USERNAME: emilys, PASSWORD: emilyspass
+          </span>
+        </form> 
       </div>
     </div>
   );

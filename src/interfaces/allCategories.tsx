@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
 import { Account, Love, Voucher,Email,Order } from "../assets/images/icons";
 import beautyWeek from "../../src/assets/images/BEAUTY_WEEK.jpg";
-import jumiaBackground from "../../src/assets/images/jumiaBackground.png";
+import adidas from "../../src/assets/images/ADIDAS.png";
+import desktop from "../../src/assets/images/Desktop.jpg";
+import fashion from "../../src/assets/images/Fashion.jpg";
 
 export interface categoriesModel{
     slug: string;
@@ -175,12 +177,10 @@ export const help = [
 ];
 
 export const carouselImages = [
-  jumiaBackground,
   beautyWeek,
-  beautyWeek,
-  beautyWeek,
-  beautyWeek,
-  beautyWeek
+  adidas,
+  desktop,
+  fashion
 ]
   
 
