@@ -20,9 +20,7 @@ $jumia-color: #f1f1f2;
     &-error{
         color: red;
     }
-    &-hint{
-        
-    }
+    
 }
 
 .jumia{
@@ -145,12 +143,8 @@ $jumia-color: #f1f1f2;
     cursor: pointer;
     text-decoration: none !important;
     color: black;
-    &:hover{
-        color: black;
-        background: rgb(245, 245, 245);
-        padding: 3px;
-        border-radius: 3px;
-        transition: all 0.3s ease-in-out;
+    :hover{
+        color: $app-color ;
     }
 }
 

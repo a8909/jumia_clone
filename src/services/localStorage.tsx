@@ -21,9 +21,9 @@ export const getToken =() => {
     return localStorage.getItem('accessToken');
 }
 
-// export const isuserLoggedin =()=>{
-//     if(getToken()) return !!currentToken;
-// }
+export const productValue =(itemKey: string, itemValue: string)=>{
+    localStorage.setItem(itemKey, itemValue);
+}
 
 export const authPayload = (payload : userResponse) => {
     localStorage.setItem('authPayload', JSON.stringify(payload));

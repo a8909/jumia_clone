@@ -10,9 +10,9 @@ import {
 } from "../services/authService";
 import Awoof from '../sharedComponents/awoof';
 import Products from '../sharedComponents/products';
-import jumiaLoogo from '../../src/assets/images/jumiaLogo.png';
 import { useNavigate } from 'react-router-dom';
 import { setValue } from '../services/localStorage';
+import LoadingSpinner from '../sharedComponents/loadingSpinner';
 
 const DashBoard = () => {
   const [categories, setCategories] = useState<categoriesModel[]>([]);
@@ -21,6 +21,7 @@ const DashBoard = () => {
   const [isFilter, setIsfiltering] = useState<boolean>(false);
   const [filtered, setfiltered] = useState<allProduct[]>([]);
   const [currentSearch, setCurrentSearch] = useState('');
+  const [onModalClose, setOnModalClose] = useState<boolean>(false);
   const navigate = useNavigate();
   
 
@@ -61,24 +62,17 @@ const DashBoard = () => {
     navigate(`/dashboard/slug/${slug}`);
   }
 
+  const handleCloseModal = () => setOnModalClose(false);
+
   useEffect(()=> {
     getCategories();
     getProducts();
   }, [])
 
   return (
-    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} >
-      {isloading && (
-        <div className="jumia-logo position-relative">
-          <img
-            src={jumiaLoogo}
-            alt=""
-            style={{ width: "70px", height: "70px" }}
-          />
-        </div>
-      )}
-
-      <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2">
+    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} closeModalEvent={onModalClose}>
+      {isloading && <LoadingSpinner/>}
+      <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2" onClick={handleCloseModal}>
         <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
           <Awoof />
         </div>

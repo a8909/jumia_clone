@@ -1,18 +1,21 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuthPayload, removeAuth } from "../../src/services/localStorage";
-import { PersonIcon } from "../assets/images/icons";
-import { CartIcon } from "../assets/images/icons";
-import { QuestionIcon } from "../assets/images/icons";
-import { DropdownIcon } from "../assets/images/icons";
+import {
+  PersonIcon,
+  CartIcon,
+  QuestionIcon,
+  DropdownIcon,
+} from "../assets/images/icons";
 import jumiaLoogo from "../../src/assets/images/jumiaLogo.png";
 import { help, userAccount } from "../interfaces/allCategories";
 import DropModal from "./dropModal";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
+  closeMdal: boolean;
 }
-const SideBar: React.FC<clickEvent> = ({ onClick }) => {
+const SideBar: React.FC<clickEvent> = ({ onClick, closeMdal }) => {
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [height, setHeight] = useState("auto");
@@ -32,20 +35,24 @@ const SideBar: React.FC<clickEvent> = ({ onClick }) => {
     setLastscrollY(currentScroll);
   };
 
+  const onClose = ()=> setshowModal(closeMdal);
   useEffect(() => {
     const parsedPayload = getAuthPayload();
     setName(parsedPayload?.username);
+    onClose();
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
-
+  
   const oncartClicked= ()=>{
     navigate("https://www.jumia.com.ng/cart");
   }
 
-  const handleClick = ()=> setshowModal(!showModal);
+  const handleClick = ()=> {
+    setshowModal(!showModal);
+  };
 
   const checkcurrentTab =(iscurrenttabActive: boolean)=>{
     handleClick();
