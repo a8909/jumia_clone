@@ -53,7 +53,6 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 
   useEffect(()=>{
     const data = getProductValue("PRODUCTITEMS");
-    setProductItems(data);
     // setProductItems([...productItems, JSON.parse(JSON.stringify(data))]);
     setProductCount(data.length);
   }, [productItems])
