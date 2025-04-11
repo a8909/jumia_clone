@@ -53,6 +53,8 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 
   useEffect(()=>{
     const data = getProductValue("PRODUCTITEMS");
+    setProductItems(data);
+    // setProductItems([...productItems, JSON.parse(JSON.stringify(data))]);
     setProductCount(data.length);
   }, [productItems])
 
@@ -60,7 +62,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 
   
   const oncartClicked= ()=>{
-    // navigate("/cart");
+    navigate("/cart");
     // localStorage.removeItem('PRODUCTITEMS');
     // setProductItems([]);
   }
@@ -76,7 +78,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 
   const onLogout =()=>{
     removeAuth();
-    navigate('/login');
+    navigate('/');
   }
 
   const home =()=>{

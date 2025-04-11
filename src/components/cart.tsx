@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getProductValue } from '../services/localStorage'
+import { getProductValue, productValue } from '../services/localStorage'
 import { allProduct } from '../interfaces/allCategories'
 import SingleCart from './singleCart'
 
@@ -12,7 +12,6 @@ const Cart = () => {
 
     const getStoredData = async()=>{
         const storedData = await getProductValue('PRODUCTITEMS');
-        console.log(storedData)
         setUpdatedCart(storedData);
     }
     useEffect(()=>{

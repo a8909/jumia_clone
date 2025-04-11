@@ -18,7 +18,7 @@ function App() {
             <Route path='/dashboard/slug/:slug' element={<SingleProduct />} />
             <Route path='/cart' element={<Cart />} />
           </Route>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </Router>
     </React.Fragment>

@@ -4,7 +4,7 @@ import {Outlet, Navigate} from 'react-router-dom';
 
 const AuthGuard = () => {
   return (
-    getToken() ? <Outlet/> : <Navigate to="/login" />
+    getToken() ? <Outlet/> : <Navigate to="/" />
   )
 }
 
