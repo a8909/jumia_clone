@@ -10,7 +10,7 @@ interface layout {
 const HomeLayout:React.FC<layout> = ({children, onSearch, closeModalEvent}) => {
   return (
     <div>
-        <SideBar onClick={onSearch} closeMdal={closeModalEvent} />
+        <SideBar onClick={onSearch} closeModal={closeModalEvent} />
         {children}
         <Footer />
     </div>

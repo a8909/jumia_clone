@@ -1,6 +1,6 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthPayload, removeAuth } from "../../src/services/localStorage";
+import { getAuthPayload, getProductValue, removeAuth } from "../../src/services/localStorage";
 import {
   PersonIcon,
   CartIcon,
@@ -8,14 +8,14 @@ import {
   DropdownIcon,
 } from "../assets/images/icons";
 import jumiaLoogo from "../../src/assets/images/jumiaLogo.png";
-import { help, userAccount } from "../interfaces/allCategories";
+import { allProduct, help, userAccount } from "../interfaces/allCategories";
 import DropModal from "./dropModal";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
-  closeMdal: boolean;
+  closeModal: boolean;
 }
-const SideBar: React.FC<clickEvent> = ({ onClick, closeMdal }) => {
+const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [height, setHeight] = useState("auto");
@@ -23,6 +23,8 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeMdal }) => {
   let navigate = useNavigate();
   const [currentTab, setcurrentTab] = useState<boolean>(false);
   const [showModal, setshowModal] = useState<boolean>(false);
+  const [productCount, setProductCount] = useState<number>(0);
+  const [productItems, setProductItems] = useState<allProduct []>([]);
 
 
   const handleScroll = () => {
@@ -35,19 +37,32 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeMdal }) => {
     setLastscrollY(currentScroll);
   };
 
-  const onClose = ()=> setshowModal(closeMdal);
+  
+
   useEffect(() => {
     const parsedPayload = getAuthPayload();
     setName(parsedPayload?.username);
-    onClose();
+    setshowModal(closeModal);
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, closeModal]);
+
+
+
+  useEffect(()=>{
+    const data = getProductValue("PRODUCTITEMS");
+    setProductCount(data.length);
+  }, [productItems])
+
+ 
+
   
   const oncartClicked= ()=>{
-    navigate("https://www.jumia.com.ng/cart");
+    // navigate("/cart");
+    // localStorage.removeItem('PRODUCTITEMS');
+    // setProductItems([]);
   }
 
   const handleClick = ()=> {
@@ -171,11 +186,15 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeMdal }) => {
                 )}
               </div>
               <div
-                className="jumia-cart cursor d-flex align-items-center gap-1"
+                className="jumia-cart cursor d-flex align-items-center gap-1 position-relative"
                 onClick={oncartClicked}
               >
                 <CartIcon />
-                <h6>Cart</h6>
+                <h6 className="me-4">Cart</h6>
+                { productCount > 0 && <span 
+                  className="position-absolute rounded-circle bg-success text-white d-flex ustify-content-center align-items-center ps-2 pe-2 end-0 bottom-50">
+                    { productCount}
+                </span>}
               </div>
             </div>
           </div>

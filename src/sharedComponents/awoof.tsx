@@ -1,8 +1,7 @@
 import React from "react";
 import ProductTemplate from "./productTemplate";
-import { allProduct, allProducts, jumiaDeals } from "../interfaces/allCategories";
+import { allProducts, jumiaDeals } from "../interfaces/allCategories";
 import Carousel from "./carousel";
-import beautyWeek from "../../src/assets/images/BEAUTY_WEEK.jpg";
 
 const Awoof = () => {
   return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import HomeLayout from './homeLayout'
 import ProductContent from '../sharedComponents/productContent'
 import { singleitemProduct } from '../services/authService'
-import { getValue } from '../services/localStorage'
+import { getProductValue, getValue } from '../services/localStorage'
 import { allProduct } from '../interfaces/allCategories'
 import OfficialStore from '../sharedComponents/officialStore'
 import LoadingSpinner from '../sharedComponents/loadingSpinner'
@@ -24,9 +24,8 @@ const SingleProduct = () => {
     }
 
     const handlecartAdded = (productItems: allProduct)=> {
-        console.log(productItems);
-        const updatedCartItems = [...cartItems, { ...productItems }];
-        console.log(updatedCartItems);
+        const existingItems = getProductValue("PRODUCTITEMS");
+        const updatedCartItems = [...existingItems, productItems ];
         productValue('PRODUCTITEMS', JSON.stringify(updatedCartItems));
         setCartItems(updatedCartItems);
     }

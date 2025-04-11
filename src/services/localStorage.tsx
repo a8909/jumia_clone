@@ -24,6 +24,9 @@ export const getToken =() => {
 export const productValue =(itemKey: string, itemValue: string)=>{
     localStorage.setItem(itemKey, itemValue);
 }
+export const getProductValue =(itemValue: string)=>{
+    return JSON.parse(localStorage.getItem(itemValue) || '[]');
+}
 
 export const authPayload = (payload : userResponse) => {
     localStorage.setItem('authPayload', JSON.stringify(payload));

@@ -62,7 +62,8 @@ const DashBoard = () => {
     navigate(`/dashboard/slug/${slug}`);
   }
 
-  const handleCloseModal = () => setOnModalClose(false);
+  const handleCloseModal = (option: boolean) => setOnModalClose(option);
+  
 
   useEffect(()=> {
     getCategories();
@@ -72,7 +73,7 @@ const DashBoard = () => {
   return (
     <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} closeModalEvent={onModalClose}>
       {isloading && <LoadingSpinner/>}
-      <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2" onClick={handleCloseModal}>
+      <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2" onClick={()=> handleCloseModal(false)}>
         <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
           <Awoof />
         </div>
@@ -102,7 +103,7 @@ const DashBoard = () => {
           )}
         </div>
         <div className="jumia-products d-flex flex-wrap justify-content-center gap-2">
-          {((isFilter && currentSearch !== '') ? filtered : product).map((item, index) => (
+          {(isFilter ? filtered : product).map((item, index) => (
             <Products
               key={index}
               price={item.price}

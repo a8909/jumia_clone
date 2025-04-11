@@ -15,3 +15,8 @@
         width: 100%;
     }
 }
+.carousel-image{
+    @media(max-width: 930px){
+        height: unset !important;
+    }
+}
