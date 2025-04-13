@@ -24,10 +24,11 @@ const SingleProduct = () => {
     }
 
     const handlecartAdded = (productItems: allProduct)=> {
-        const existingItems = getProductValue("PRODUCTITEMS");
-        const updatedCartItems = [...existingItems, productItems ];
-        productValue('PRODUCTITEMS', JSON.stringify(updatedCartItems));
-        setCartItems(updatedCartItems);
+      const existingItems = getProductValue("PRODUCTITEMS");
+      const updatedCartItems = [...existingItems, productItems];
+      productValue("PRODUCTITEMS", JSON.stringify(updatedCartItems));
+      setCartItems(updatedCartItems);
+      window.dispatchEvent(new Event("cartUpdated")); 
     }
         
 
@@ -69,6 +70,7 @@ const SingleProduct = () => {
               productName={product?.title}
               productDescription={product?.description}
               onCartAdded={() => handlecartAdded(product!)}
+              productPrice={`$${product?.price}`}
             />
           </div>
         </div>

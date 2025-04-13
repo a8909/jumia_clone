@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { getProductValue, productValue } from '../services/localStorage'
+import { getProductValue } from '../services/localStorage'
 import { allProduct } from '../interfaces/allCategories'
 import SingleCart from './singleCart'
-
 
 const Cart = () => {
     const [updatedCart, setUpdatedCart] = useState<allProduct[]>([])
@@ -10,12 +9,13 @@ const Cart = () => {
     const handleSubtract = ()=>{}
     const handleDelete = ()=>{}
 
-    const getStoredData = async()=>{
-        const storedData = await getProductValue('PRODUCTITEMS');
-        setUpdatedCart(storedData);
+    const getCartList = () =>{
+      const cartData: allProduct[] = getProductValue("PRODUCTITEMS");
+      setUpdatedCart(cartData);
+      console.log(cartData)
     }
     useEffect(()=>{
-        getStoredData()
+      getCartList();
     },[])
   return (
     <React.Fragment>

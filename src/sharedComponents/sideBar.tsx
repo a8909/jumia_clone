@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuthPayload, getProductValue, removeAuth } from "../../src/services/localStorage";
 import {
@@ -37,33 +37,37 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
     setLastscrollY(currentScroll);
   };
 
+  const getCart = () => {
+    const cart: allProduct[] = getProductValue("PRODUCTITEMS");
+    setProductItems(cart);
+    setProductCount(cart.length);
+  }
   
+
+  useEffect(()=>{
+    const handleCartUpdate = ()=>{
+      getCart();
+    }
+    window.addEventListener("cartUpdated", handleCartUpdate);
+     return () => {
+       window.removeEventListener("cartUpdated", handleCartUpdate);
+     };
+  }, [])
 
   useEffect(() => {
     const parsedPayload = getAuthPayload();
     setName(parsedPayload?.username);
     setshowModal(closeModal);
+    getCart()
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY, closeModal]);
-
-
-
-  useEffect(()=>{
-    const data = getProductValue("PRODUCTITEMS");
-    // setProductItems([...productItems, JSON.parse(JSON.stringify(data))]);
-    setProductCount(data.length);
-  }, [productItems])
-
- 
+  }, [lastScrollY]);
 
   
   const oncartClicked= ()=>{
     navigate("/cart");
-    // localStorage.removeItem('PRODUCTITEMS');
-    // setProductItems([]);
   }
 
   const handleClick = ()=> {

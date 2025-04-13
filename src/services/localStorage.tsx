@@ -1,8 +1,6 @@
 
-import { useState } from "react";
-import { userResponse } from "./authService";
 
-const currentToken = false;
+import { userResponse } from "./authService";
 
 
 export const setToken =(token: string) => {

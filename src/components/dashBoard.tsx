@@ -43,6 +43,7 @@ const DashBoard = () => {
       setfiltered(product);
       setCurrentSearch(search);
       setIsfiltering(false);
+      setCurrentSearch("");
       return ;
     }else{
        const filter = product.filter(eachProduct=> 
@@ -50,9 +51,9 @@ const DashBoard = () => {
       );
       setfiltered(filter);
       setIsfiltering(true);
+      setCurrentSearch("");
       return filter;
     }
-
   }
 
   const onproductClick = async(productSlug: string) => {

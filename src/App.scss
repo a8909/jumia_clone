@@ -104,6 +104,14 @@ $jumia-color: #f1f1f2;
             margin: auto;
         }
 }
+&-cart{ 
+    &.items{
+        max-width: 600px;
+        margin: 10px auto;
+        background-color: $jumia-color;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
 }
 
 .resize{
