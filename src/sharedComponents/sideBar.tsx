@@ -1,6 +1,10 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthPayload, getProductValue, removeAuth } from "../../src/services/localStorage";
+import {
+  getAuthPayload,
+  getProductValue,
+  removeAuth,
+} from "../../src/services/localStorage";
 import {
   PersonIcon,
   CartIcon,
@@ -10,6 +14,10 @@ import {
 import jumiaLoogo from "../../src/assets/images/jumiaLogo.png";
 import { allProduct, help, userAccount } from "../interfaces/allCategories";
 import DropModal from "./dropModal";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../state/store";
+import { productAdd, setProduct } from "../state/slice/productSlice";
+import modalClose, { dismiss } from "../state/slice/modalClose";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
@@ -24,8 +32,11 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
   const [currentTab, setcurrentTab] = useState<boolean>(false);
   const [showModal, setshowModal] = useState<boolean>(false);
   const [productCount, setProductCount] = useState<number>(0);
-  const [productItems, setProductItems] = useState<allProduct []>([]);
-
+  const [productItems, setProductItems] = useState<allProduct[]>([]);
+  const product = useSelector(
+    (state: RootState) => state.productReducer.product
+  );
+  const dispatch = useDispatch();
 
   const handleScroll = () => {
     const currentScroll = window.scrollY;
@@ -37,58 +48,60 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
     setLastscrollY(currentScroll);
   };
 
-  const getCart = () => {
-    const cart: allProduct[] = getProductValue("PRODUCTITEMS");
-    setProductItems(cart);
-    setProductCount(cart.length);
-  }
-  
+  const checkStorageState = (): allProduct[] => {
+    let productList = product;
 
-  useEffect(()=>{
-    const handleCartUpdate = ()=>{
-      getCart();
+    if (productList.length === 0) {
+      productList = getProductValue("PRODUCTITEMS");
     }
-    window.addEventListener("cartUpdated", handleCartUpdate);
-     return () => {
-       window.removeEventListener("cartUpdated", handleCartUpdate);
-     };
-  }, [])
+    return productList;
+  };
+
+
+  useEffect(() => {
+    dispatch(setProduct(checkStorageState()));
+  }, []);
+
+  useEffect(() => {
+    const getCart = () => {
+      setProductItems(checkStorageState());
+      setProductCount(checkStorageState().length);
+    };
+    getCart();
+    setshowModal(closeModal)
+    return () => {};
+  }, [product, closeModal]);
 
   useEffect(() => {
     const parsedPayload = getAuthPayload();
     setName(parsedPayload?.username);
-    setshowModal(closeModal);
-    getCart()
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
 
-  
-  const oncartClicked= ()=>{
+  const oncartClicked = () => {
     navigate("/cart");
-  }
+  };
 
-  const handleClick = ()=> {
+  const handleClick = () => {
     setshowModal(!showModal);
   };
 
-  const checkcurrentTab =(iscurrenttabActive: boolean)=>{
+  const checkcurrentTab = (iscurrenttabActive: boolean) => {
     handleClick();
     setcurrentTab(iscurrenttabActive);
-  }
+  };
 
-  const onLogout =()=>{
+  const onLogout = () => {
     removeAuth();
-    navigate('/');
-  }
+    navigate("/");
+  };
 
-  const home =()=>{
-    navigate('/dashboard')
-  }
-
- 
+  const home = () => {
+    navigate("/dashboard");
+  };
 
   return (
     <div className="jumia-big">
@@ -196,10 +209,11 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
               >
                 <CartIcon />
                 <h6 className="me-4">Cart</h6>
-                { productCount > 0 && <span 
-                  className="position-absolute rounded-circle bg-success text-white d-flex ustify-content-center align-items-center ps-2 pe-2 end-0 bottom-50">
-                    { productCount}
-                </span>}
+                {productCount > 0 && (
+                  <span className="position-absolute rounded-circle bg-success text-white d-flex ustify-content-center align-items-center ps-2 pe-2 end-0 bottom-50">
+                    {productCount}
+                  </span>
+                )}
               </div>
             </div>
           </div>

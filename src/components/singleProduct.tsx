@@ -7,6 +7,8 @@ import { allProduct } from '../interfaces/allCategories'
 import OfficialStore from '../sharedComponents/officialStore'
 import LoadingSpinner from '../sharedComponents/loadingSpinner'
 import { productValue } from '../services/localStorage'
+import { useDispatch } from 'react-redux'
+import { productAdd } from '../state/slice/productSlice'
 
 const SingleProduct = () => {
 
@@ -14,7 +16,7 @@ const SingleProduct = () => {
     const [productIndex, setProductIndex] = useState<number>(0);
     const [onModalClose, setOnModalClose] = useState<boolean>(false);
     const [isLoading, setIsloading] = useState<boolean>(false);
-    const [cartItems, setCartItems] = useState<allProduct[]>([]);
+    const dispatch = useDispatch();
     const slug = getValue("PRDUCTSLUG");
     const getsingleProduct = async(slug: string) => {
         setIsloading(true);
@@ -27,8 +29,7 @@ const SingleProduct = () => {
       const existingItems = getProductValue("PRODUCTITEMS");
       const updatedCartItems = [...existingItems, productItems];
       productValue("PRODUCTITEMS", JSON.stringify(updatedCartItems));
-      setCartItems(updatedCartItems);
-      window.dispatchEvent(new Event("cartUpdated")); 
+      dispatch(productAdd(productItems));
     }
         
 
@@ -39,7 +40,7 @@ const SingleProduct = () => {
 
     
   return (
-    <HomeLayout onSearch={() => console.log()} closeModalEvent={onModalClose}>
+    <HomeLayout onSearch={() => console.log()} closeModal={false}>
       {isLoading && <LoadingSpinner />}
       <div className="jumia-products-container" onClick={handleCloseModal}>
         <div className="jumia-incontainer d-flex justify-content-between gap-4">

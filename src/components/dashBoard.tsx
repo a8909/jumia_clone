@@ -63,24 +63,27 @@ const DashBoard = () => {
     navigate(`/dashboard/slug/${slug}`);
   }
 
-  const handleCloseModal = (option: boolean) => setOnModalClose(option);
-  
-
   useEffect(()=> {
     getCategories();
     getProducts();
   }, [])
 
   return (
-    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} closeModalEvent={onModalClose}>
-      {isloading && <LoadingSpinner/>}
-      <div className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2" onClick={()=> handleCloseModal(false)}>
+    <HomeLayout
+      onSearch={(e, search: string) => handleSearch(e, search)}
+      closeModal={onModalClose}
+    >
+      {isloading && <LoadingSpinner />}
+      <div
+        className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2"
+        onClick={() => setOnModalClose(false)}
+      >
         <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
           <Awoof />
         </div>
         <div
           className={`${
-            !isloading ? "overflow-x-scroll" : 'full'
+            !isloading ? "overflow-x-scroll" : "full"
           } jumia-awoof d-flex gap-2 position-relative`}
         >
           {!isloading ? (
@@ -113,7 +116,7 @@ const DashBoard = () => {
               slug={item.slug}
               description={item.description}
               id={item.id}
-              onClick={()=> onproductClick(item.slug)}
+              onClick={() => onproductClick(item.slug)}
             />
           ))}
         </div>

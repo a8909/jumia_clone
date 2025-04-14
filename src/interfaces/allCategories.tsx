@@ -21,6 +21,7 @@ export interface allProduct{
   onClick ?: ()=> void;
 }
 
+
 export interface account{
   icon: ReactNode;
   name: string;

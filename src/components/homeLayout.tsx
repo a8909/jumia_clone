@@ -5,12 +5,12 @@ import Footer from '../sharedComponents/footer'
 interface layout {
     children: ReactNode;
     onSearch : (e:FormEvent, search: string)=> void;
-    closeModalEvent: boolean;
+    closeModal: boolean;
 }
-const HomeLayout:React.FC<layout> = ({children, onSearch, closeModalEvent}) => {
+const HomeLayout:React.FC<layout> = ({children, onSearch, closeModal}) => {
   return (
     <div>
-        <SideBar onClick={onSearch} closeModal={closeModalEvent} />
+        <SideBar onClick={onSearch}  closeModal={closeModal} />
         {children}
         <Footer />
     </div>
