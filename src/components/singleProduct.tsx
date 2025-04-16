@@ -7,16 +7,21 @@ import { allProduct } from '../interfaces/allCategories'
 import OfficialStore from '../sharedComponents/officialStore'
 import LoadingSpinner from '../sharedComponents/loadingSpinner'
 import { productValue } from '../services/localStorage'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { productAdd } from '../state/slice/productSlice'
+import { RootState } from '../state/store'
+import { dismiss } from '../state/slice/modalSlice'
 
 const SingleProduct = () => {
 
     const [product, setProduct] = useState<allProduct>();
     const [productIndex, setProductIndex] = useState<number>(0);
-    const [onModalClose, setOnModalClose] = useState<boolean>(false);
     const [isLoading, setIsloading] = useState<boolean>(false);
+    const [message, setMessage] = useState('');
     const dispatch = useDispatch();
+    const closeModal = useSelector((state: RootState)=> state.dismissModal.closeModal);
+    let close = closeModal;
+
     const slug = getValue("PRDUCTSLUG");
     const getsingleProduct = async(slug: string) => {
         setIsloading(true);
@@ -30,19 +35,23 @@ const SingleProduct = () => {
       const updatedCartItems = [...existingItems, productItems];
       productValue("PRODUCTITEMS", JSON.stringify(updatedCartItems));
       dispatch(productAdd(productItems));
+      setMessage(`${productItems.title} is suuccessfully added to cart!`);
     }
         
-
-    const handleCloseModal =()=> setOnModalClose(false);
     useEffect(()=>{
         getsingleProduct(slug);
     },[])
 
+    useEffect(()=>{
+        setTimeout(()=>{setMessage("")}, 2000)
+    },[message])
+
     
   return (
-    <HomeLayout onSearch={() => console.log()} closeModal={false}>
+    <HomeLayout onSearch={() => console.log()} >
       {isLoading && <LoadingSpinner />}
-      <div className="jumia-products-container" onClick={handleCloseModal}>
+      {message !== '' && <div className='text-center text-success jumia-cart-message bg-light-subtle me-auto ms-auto p-1 mb-1 fw-semibold rounded'>{message}</div>}
+      <div className="jumia-products-container" onClick={()=> dispatch(dismiss(!close))}>
         <div className="jumia-incontainer d-flex justify-content-between gap-4">
           <div className="single-left">
             <ProductContent

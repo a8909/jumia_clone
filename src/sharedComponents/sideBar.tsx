@@ -16,14 +16,12 @@ import { allProduct, help, userAccount } from "../interfaces/allCategories";
 import DropModal from "./dropModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../state/store";
-import { productAdd, setProduct } from "../state/slice/productSlice";
-import modalClose, { dismiss } from "../state/slice/modalClose";
+import { setProduct } from "../state/slice/productSlice";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
-  closeModal: boolean;
 }
-const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
+const SideBar: React.FC<clickEvent> = ({ onClick,  }) => {
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [height, setHeight] = useState("auto");
@@ -36,6 +34,10 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
   const product = useSelector(
     (state: RootState) => state.productReducer.product
   );
+  const isModalClose = useSelector(
+    (state: RootState) => state.dismissModal.closeModal
+  );
+ 
   const dispatch = useDispatch();
 
   const handleScroll = () => {
@@ -50,16 +52,16 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 
   const checkStorageState = (): allProduct[] => {
     let productList = product;
-
     if (productList.length === 0) {
       productList = getProductValue("PRODUCTITEMS");
     }
     return productList;
   };
 
-
   useEffect(() => {
     dispatch(setProduct(checkStorageState()));
+     const parsedPayload = getAuthPayload();
+     setName(parsedPayload?.username);
   }, []);
 
   useEffect(() => {
@@ -68,26 +70,24 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
       setProductCount(checkStorageState().length);
     };
     getCart();
-    setshowModal(closeModal)
+    if(isModalClose){
+      setshowModal(!isModalClose);
+    }else{
+      setshowModal(isModalClose);
+    }
     return () => {};
-  }, [product, closeModal]);
+  }, [product, isModalClose]);
 
   useEffect(() => {
-    const parsedPayload = getAuthPayload();
-    setName(parsedPayload?.username);
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
 
-  const oncartClicked = () => {
-    navigate("/cart");
-  };
+  const oncartClicked = () => navigate("/cart");
 
-  const handleClick = () => {
-    setshowModal(!showModal);
-  };
+  const handleClick = () => setshowModal(!showModal);
 
   const checkcurrentTab = (iscurrenttabActive: boolean) => {
     handleClick();
@@ -99,9 +99,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
     navigate("/");
   };
 
-  const home = () => {
-    navigate("/dashboard");
-  };
+  const home = () => navigate("/dashboard");
 
   return (
     <div className="jumia-big">
@@ -224,3 +222,5 @@ const SideBar: React.FC<clickEvent> = ({ onClick, closeModal }) => {
 };
 
 export default SideBar;
+
+

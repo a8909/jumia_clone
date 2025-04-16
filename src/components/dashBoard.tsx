@@ -13,6 +13,9 @@ import Products from '../sharedComponents/products';
 import { useNavigate } from 'react-router-dom';
 import { setValue } from '../services/localStorage';
 import LoadingSpinner from '../sharedComponents/loadingSpinner';
+import { RootState } from '../state/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { dismiss } from '../state/slice/modalSlice';
 
 const DashBoard = () => {
   const [categories, setCategories] = useState<categoriesModel[]>([]);
@@ -21,8 +24,10 @@ const DashBoard = () => {
   const [isFilter, setIsfiltering] = useState<boolean>(false);
   const [filtered, setfiltered] = useState<allProduct[]>([]);
   const [currentSearch, setCurrentSearch] = useState('');
-  const [onModalClose, setOnModalClose] = useState<boolean>(false);
   const navigate = useNavigate();
+  const closeModal = useSelector((state: RootState)=> state.dismissModal.closeModal);
+  const dispatch = useDispatch();
+  let close = closeModal;
   
 
   const getCategories = async() => {
@@ -70,13 +75,11 @@ const DashBoard = () => {
 
   return (
     <HomeLayout
-      onSearch={(e, search: string) => handleSearch(e, search)}
-      closeModal={onModalClose}
-    >
+      onSearch={(e, search: string) => handleSearch(e, search)}>
       {isloading && <LoadingSpinner />}
       <div
         className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2"
-        onClick={() => setOnModalClose(false)}
+        onClick={() => dispatch(dismiss(!close))}
       >
         <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
           <Awoof />

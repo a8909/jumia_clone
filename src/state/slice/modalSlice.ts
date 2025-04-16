@@ -7,7 +7,7 @@ interface modalState{
 const initialState: modalState ={
     closeModal: false
 }
-export const modalClose = createSlice({
+export const modalSlice = createSlice({
     name: "dismissModal",
     initialState,
     reducers:{
@@ -17,5 +17,5 @@ export const modalClose = createSlice({
     }
 })
 
-export const {dismiss} = modalClose.actions;
-export default modalClose.reducer;
+export const {dismiss} = modalSlice.actions;
+export default modalSlice.reducer;
