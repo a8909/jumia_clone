@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { allProduct, allProducts } from "../../interfaces/allCategories";
+import { allProduct } from "../../interfaces/allCategories";
 
 interface productReducer {
   product: allProduct[];

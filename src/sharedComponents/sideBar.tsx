@@ -132,12 +132,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick,  }) => {
         <div className="jumia-header d-flex justify-content-center">
           <div className="jumia-header-inner p-3 ">
             <h1 className="text-nowrap point" onClick={home}>
-              JUMIA{" "}
-              <img
-                src={jumiaLoogo}
-                alt=""
-                style={{ width: "40px", height: "40px" }}
-              />
+              JUMIA <img src={jumiaLoogo} alt="" style={{ width: "40px", height: "40px" }} />
             </h1>
 
             <div className="jumia-search d-flex gap-2">

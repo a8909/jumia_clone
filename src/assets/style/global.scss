@@ -1,0 +1,13 @@
+
+
+.footer{
+    &-copy{
+        &-layout{
+            width: 72%;
+        }
+    }&-form > span{
+        position: absolute;
+        top: 28%;
+        margin-left: 8px;
+    }
+}
