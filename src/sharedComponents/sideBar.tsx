@@ -20,8 +20,9 @@ import { setProduct } from "../state/slice/productSlice";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
+  filter: (search: string) => void;
 }
-const SideBar: React.FC<clickEvent> = ({ onClick,  }) => {
+const SideBar: React.FC<clickEvent> = ({ onClick, filter }) => {
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [height, setHeight] = useState("auto");
@@ -140,6 +141,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick,  }) => {
                 className="form-control jumia-input p-3"
                 id="search-input"
                 type="text"
+                onInput={()=>filter(search)}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Products, brands and categories"
               />

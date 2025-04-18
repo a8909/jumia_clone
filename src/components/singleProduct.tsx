@@ -43,12 +43,13 @@ const SingleProduct = () => {
     },[])
 
     useEffect(()=>{
-        setTimeout(()=>{setMessage("")}, 2000)
+      let timer = setTimeout(()=>{setMessage("")}, 2000);
+      return () => clearTimeout(timer);
     },[message])
 
     
   return (
-    <HomeLayout onSearch={() => console.log()} >
+    <HomeLayout onSearch={() => console.log()} filter={console.log} >
       {isLoading && <LoadingSpinner />}
       {message !== '' && <div className='text-center text-success jumia-cart-message bg-light-subtle me-auto ms-auto p-1 mb-1 fw-semibold rounded'>{message}</div>}
       <div className="jumia-products-container" onClick={()=> dispatch(dismiss(!close))}>

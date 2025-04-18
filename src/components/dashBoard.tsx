@@ -16,18 +16,21 @@ import LoadingSpinner from '../sharedComponents/loadingSpinner';
 import { RootState } from '../state/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { dismiss } from '../state/slice/modalSlice';
+import { filterProduct } from '../state/slice/filterSlice';
 
 const DashBoard = () => {
   const [categories, setCategories] = useState<categoriesModel[]>([]);
   const [product, setProduct] = useState<allProduct[]>([]);
   const [isloading, setIsloading] = useState<boolean>(false);
-  const [isFilter, setIsfiltering] = useState<boolean>(false);
-  const [filtered, setfiltered] = useState<allProduct[]>([]);
-  const [currentSearch, setCurrentSearch] = useState('');
   const navigate = useNavigate();
   const closeModal = useSelector((state: RootState)=> state.dismissModal.closeModal);
+  const filterSearch = useSelector((state: RootState)=> state.filterSlice.productToSearch);
+  const filterquery = useSelector((state: RootState)=> state.filterSlice.query);
+  const filtering = useSelector((state: RootState)=> state.filterSlice.isFiltered);
   const dispatch = useDispatch();
   let close = closeModal;
+  let productToFilter: allProduct[] = filterSearch;
+  let filterState : boolean = filtering;
   
 
   const getCategories = async() => {
@@ -38,27 +41,19 @@ const DashBoard = () => {
   }
   const getProducts = async() => {
     setIsloading(true);
-    const data = await getAllProducts();
-    setProduct(data);
+    productToFilter = await getAllProducts();
+    setProduct(productToFilter);
     setIsloading(false);
   }
   const handleSearch =(e: FormEvent, search: string)=>{
     e.preventDefault();
-    if(search === ''){
-      setfiltered(product);
-      setCurrentSearch(search);
-      setIsfiltering(false);
-      setCurrentSearch("");
-      return ;
-    }else{
-       const filter = product.filter(eachProduct=> 
-         eachProduct.title.toLocaleLowerCase().includes(search.toLowerCase())
-      );
-      setfiltered(filter);
-      setIsfiltering(true);
-      setCurrentSearch("");
-      return filter;
-    }
+    const payLoad ={query: search, productToSearch: product, isFiltered:filterState };
+    dispatch(filterProduct(payLoad))
+  }
+
+  const handleFilter = (search : string)=>{
+    const payLoad ={query: search, productToSearch: product, isFiltered:filterState };
+    dispatch(filterProduct(payLoad));
   }
 
   const onproductClick = async(productSlug: string) => {
@@ -75,7 +70,9 @@ const DashBoard = () => {
 
   return (
     <HomeLayout
-      onSearch={(e, search: string) => handleSearch(e, search)}>
+      filter={(search: string) => handleFilter(search)}
+      onSearch={(e, search: string) => handleSearch(e, search)}
+    >
       {isloading && <LoadingSpinner />}
       <div
         className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2"
@@ -110,7 +107,7 @@ const DashBoard = () => {
           )}
         </div>
         <div className="jumia-products d-flex flex-wrap justify-content-center gap-2">
-          {(isFilter ? filtered : product).map((item, index) => (
+          {(filterState ? filterSearch : product).map((item, index) => (
             <Products
               key={index}
               price={item.price}
