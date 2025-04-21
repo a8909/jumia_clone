@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { getProductValue, productValue } from '../services/localStorage'
 import { allProduct } from '../interfaces/allCategories'
 import SingleCart from './singleCart'
 import HomeLayout from './homeLayout'
 import { useDispatch, useSelector } from 'react-redux'
-import { productAdd, productDelete, productSubtract, setProduct } from '../state/slice/productSlice'
+import { productAdd, productDelete, setProduct } from '../state/slice/productSlice'
 import { dismiss } from '../state/slice/modalSlice'
 import { RootState } from '../state/store'
 import LoadingSpinner from '../sharedComponents/loadingSpinner'
 import { useNavigate } from 'react-router-dom'
+import { filterProduct } from '../state/slice/filterSlice'
 
 const Cart = () => {
     const [updatedCart, setUpdatedCart] = useState<allProduct[]>([]);
@@ -19,7 +20,10 @@ const Cart = () => {
     const dispatch = useDispatch();
     const closeModal = useSelector((state: RootState) => state.dismissModal.closeModal);
     const product = useSelector((state: RootState) => state.productReducer.product);
+    const isFiltering = useSelector((state: RootState) => state.filterSlice.isFiltered);
+    // const filterSearch = useSelector((state: RootState) => state.filterSlice.productToSearch);
     let close = closeModal;
+    let filterState = isFiltering;
     const navigate = useNavigate();
 
     const handleAdd = (index: number)=>{
@@ -37,7 +41,7 @@ const Cart = () => {
        const singleCart = updatedCart[index];
        setExistedCartCount((oldCount) => oldCount - 1);
        const cartIndex = product.indexOf(singleCart);
-       dispatch(productSubtract(cartIndex));
+      //  dispatch(productSubtract(cartIndex));
        productValue("PRODUCTITEMS", JSON.stringify(product));
     }
 
@@ -46,9 +50,9 @@ const Cart = () => {
       navigate('/dashboard');
     }
 
-    const getCartList = (): allProduct[] =>{
+    const getCartList = (storedProduct : allProduct[]) =>{
       setIsLoading(true);
-      let cartProduct = product;
+      let cartProduct =  storedProduct ;
       if(cartProduct.length === 0) {
         cartProduct = getProductValue("PRODUCTITEMS");
         const newCart: allProduct[] = [];
@@ -66,10 +70,10 @@ const Cart = () => {
             }
           });
           setUpdatedCart(newCart);
+          dispatch(setProduct(newCart))
         }
       }
       setIsLoading(false);
-      return cartProduct
     }
 
     const getTotalCartPrice = (): number => {
@@ -79,14 +83,23 @@ const Cart = () => {
       }
       return totalListPrice;
     }
+
+    const handleSearch = (e: FormEvent, search : string) => {
+      e.preventDefault();
+      const payLoad ={query: search, productToSearch: updatedCart, isFiltered:filterState };
+      dispatch(filterProduct(payLoad))
+    }
     
     useEffect(()=>{
-        dispatch(setProduct(getCartList()));
-        setTotalPrice(getTotalCartPrice())
+      const init : allProduct[] = [];
+      if (updatedCart.length === 0) {
+        getCartList(init);
+        setTotalPrice(getTotalCartPrice());
+      }
     }, [])
 
     useEffect(()=>{
-      getCartList();
+      getCartList(product);
       setTotalPrice(getTotalCartPrice());
       let timer = setTimeout(()=>{
         setMessage('');
@@ -95,7 +108,7 @@ const Cart = () => {
     },[product, message])
 
   return (
-    <HomeLayout onSearch={console.log} filter={console.log}>
+    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} filter={console.log}>
       {isLoading && <LoadingSpinner />}
       {!isLoading && (
         <div onClick={() => dispatch(dismiss(!close))}>

@@ -23,12 +23,8 @@ const productSlice = createSlice({
     setProduct: (state, action: { payload: allProduct[] }) => {
       state.product = [...action.payload];
     },
-    productSubtract : (state, action:{payload: number}) => {
-      state.product = state.product.splice(action.payload, state.product.length)
-      console.log(state.product)
-    }
   },
 });
 
-export const { productAdd, productDelete, setProduct, productSubtract } = productSlice.actions;
+export const { productAdd, productDelete, setProduct } = productSlice.actions;
 export default productSlice.reducer;

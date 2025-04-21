@@ -25,7 +25,6 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const closeModal = useSelector((state: RootState)=> state.dismissModal.closeModal);
   const filterSearch = useSelector((state: RootState)=> state.filterSlice.productToSearch);
-  const filterquery = useSelector((state: RootState)=> state.filterSlice.query);
   const filtering = useSelector((state: RootState)=> state.filterSlice.isFiltered);
   const dispatch = useDispatch();
   let close = closeModal;
