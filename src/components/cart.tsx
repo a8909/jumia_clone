@@ -15,13 +15,14 @@ const Cart = () => {
     const [updatedCart, setUpdatedCart] = useState<allProduct[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [message, setMessage] = useState('');
+    const [searchCharacter, setSearchCharacter] = useState('');
     const [existedCartCount, setExistedCartCount] = useState<number>(0);
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const dispatch = useDispatch();
     const closeModal = useSelector((state: RootState) => state.dismissModal.closeModal);
     const product = useSelector((state: RootState) => state.productReducer.product);
     const isFiltering = useSelector((state: RootState) => state.filterSlice.isFiltered);
-    // const filterSearch = useSelector((state: RootState) => state.filterSlice.productToSearch);
+    const filterSearch = useSelector((state: RootState) => state.filterSlice.productToSearch);
     let close = closeModal;
     let filterState = isFiltering;
     const navigate = useNavigate();
@@ -34,8 +35,9 @@ const Cart = () => {
     }
 
     const handleDelete = (cartId: number) => {
-        dispatch(productDelete(cartId));
-        productValue("PRODUCTITEMS", JSON.stringify(product));
+      const deleteItem = updatedCart.filter(cart => cart.id !== cartId);
+        // dispatch(productDelete(cartId));
+        productValue("PRODUCTITEMS", JSON.stringify(deleteItem));
     }
     const handleSubtract = (index: number)=>{
        const singleCart = updatedCart[index];
@@ -86,7 +88,14 @@ const Cart = () => {
 
     const handleSearch = (e: FormEvent, search : string) => {
       e.preventDefault();
+      setSearchCharacter(search);
       const payLoad ={query: search, productToSearch: updatedCart, isFiltered:filterState };
+      dispatch(filterProduct(payLoad))
+    }
+
+    const handleFilter = (searchString: string) => {
+       setSearchCharacter(searchString);
+      const payLoad = {query: searchString, productToSearch: updatedCart, isFiltered:filterState };
       dispatch(filterProduct(payLoad))
     }
     
@@ -108,7 +117,10 @@ const Cart = () => {
     },[product, message])
 
   return (
-    <HomeLayout onSearch={(e, search: string) => handleSearch(e, search)} filter={console.log}>
+    <HomeLayout
+      onSearch={(e, search: string) => handleSearch(e, search)}
+      filter={(searchString: string) => handleFilter(searchString)}
+    >
       {isLoading && <LoadingSpinner />}
       {!isLoading && (
         <div onClick={() => dispatch(dismiss(!close))}>
@@ -118,32 +130,36 @@ const Cart = () => {
             </div>
           )}
           {updatedCart.length &&
-            updatedCart.map((storedCart, index) => (
-              <SingleCart
-                key={index}
-                productImage={storedCart.images[0]}
-                productTitle={storedCart.title}
-                productAdd={() => handleAdd(index)}
-                productCount={existedCartCount}
-                productSubtract={() => handleSubtract(index)}
-                productDelete={() => handleDelete(storedCart.id)}
-                productPrice={storedCart.price}
-              />
-            ))}
+            (isFiltering ? filterSearch : updatedCart).map(
+              (storedCart, index) => (
+                <SingleCart
+                  key={index}
+                  productImage={storedCart.images[0]}
+                  productTitle={storedCart.title}
+                  productAdd={() => handleAdd(index)}
+                  productCount={existedCartCount}
+                  productSubtract={() => handleSubtract(index)}
+                  productDelete={() => handleDelete(storedCart.id)}
+                  productPrice={storedCart.price}
+                />
+              )
+            )}
           {!updatedCart.length && (
             <h4 className="text-center">No cart has been added. </h4>
           )}
-          <div className="d-flex justify-content-between p-3 align-items-center">
-            <h4>Total price</h4>
-            <h5>{`$${totalPrice}`}</h5>
-          </div>
-          <div className="jumia-checkout d-flex align-items-center justify-content-center p-3">
-            <button
-              className="text-white bg-success p-2 rounded"
-              onClick={handleCheckOut}
-            >
-              Checkout
-            </button>
+          <div className={`${filterSearch.filter(f=> f.title.toLowerCase().includes(searchCharacter.toLowerCase())).length > 0 ? 'd-block': 'd-none'}`}>
+            <div className="d-flex justify-content-between p-3 align-items-center">
+              <h4>Total price</h4>
+              <h5>{`$${totalPrice}`}</h5>
+            </div>
+            <div className="jumia-checkout d-flex align-items-center justify-content-center p-3">
+              <button
+                className="text-white bg-success p-2 rounded"
+                onClick={handleCheckOut}
+              >
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       )}

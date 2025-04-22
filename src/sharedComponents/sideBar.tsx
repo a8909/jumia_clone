@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   getAuthPayload,
@@ -17,6 +17,8 @@ import DropModal from "./dropModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../state/store";
 import { setProduct } from "../state/slice/productSlice";
+import { clearInterval, setInterval } from "timers";
+import { autoLogOut } from "../services/authService";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
@@ -60,9 +62,12 @@ const SideBar: React.FC<clickEvent> = ({ onClick, filter }) => {
   };
 
   useEffect(() => {
-    dispatch(setProduct(checkStorageState()));
+    if (!productItems.length) {
+      dispatch(setProduct(checkStorageState()));
+    }
      const parsedPayload = getAuthPayload();
      setName(parsedPayload?.username);
+    
   }, []);
 
   useEffect(() => {

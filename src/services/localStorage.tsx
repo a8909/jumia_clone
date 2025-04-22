@@ -32,7 +32,7 @@ export const authPayload = (payload : userResponse) => {
 
 export const getAuthPayload = () => {
   return JSON.parse(localStorage.getItem("authPayload") || "{}");
-};
+}
 
 export const removeAuth = () =>{
     localStorage.removeItem('accessToken');

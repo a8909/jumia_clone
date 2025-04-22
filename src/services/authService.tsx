@@ -1,5 +1,6 @@
+
 import { allProduct, categoriesModel } from "../interfaces/allCategories";
-import { getToken } from "./localStorage";
+import { getToken, removeAuth } from "./localStorage";
 
 export interface userLogin{
     username : string,
@@ -43,7 +44,7 @@ export const authUser = async (postData: userLogin) => {
 export const getAllCategories = async() => {
     try {
         const response = await fetch(
-          " https://api.escuelajs.co/api/v1/categories"
+          "https://api.escuelajs.co/api/v1/categories"
         );
         const data: categoriesModel[]  = await response.json();
         return data;
@@ -75,4 +76,11 @@ export const singleitemProduct = async(slug: string) =>{
         throw new Error(`${error}`);
     }
     
+}
+
+export const autoLogOut = (event: any) =>{
+    if (event.type !== 'mouseClick' || event.type !== 'mouseClick') {
+        removeAuth();
+    }
+    return;
 }

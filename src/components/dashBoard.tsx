@@ -74,7 +74,7 @@ const DashBoard = () => {
     >
       {isloading && <LoadingSpinner />}
       <div
-        className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-wrap gap-2"
+        className="jumia-product-container rounded p-3 ms-5 mt-3 d-flex justify-content-between flex-column flex-wrap gap-2"
         onClick={() => dispatch(dismiss(!close))}
       >
         <div className="jumia-awoof d-flex flex-wrap gap-4 m-auto overflow-auto">
