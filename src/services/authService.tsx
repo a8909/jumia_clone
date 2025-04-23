@@ -1,6 +1,7 @@
-
+import { useNavigate } from "react-router-dom";
 import { allProduct, categoriesModel } from "../interfaces/allCategories";
 import { getToken, removeAuth } from "./localStorage";
+
 
 export interface userLogin{
     username : string,
@@ -78,9 +79,30 @@ export const singleitemProduct = async(slug: string) =>{
     
 }
 
-export const autoLogOut = (event: any) =>{
-    if (event.type !== 'mouseClick' || event.type !== 'mouseClick') {
-        removeAuth();
-    }
-    return;
+let timer : any;
+const events = ["click", "mousemove", "keypress"];
+export const handleLogout = () =>{
+    timer = setTimeout(() => {
+        events.forEach((event) => {
+            window.removeEventListener(event, resetTimer);
+            autoLogOut();
+        });
+    }, 3000); 
+}
+
+export const checkLoginActivity = () => {
+    events.forEach(event => {
+        window.addEventListener(event, ()=>{
+            resetTimer();
+            handleLogout();
+        })
+    })
+}
+
+const autoLogOut = () => {
+    removeAuth();
+}
+
+export const resetTimer = ()=> {
+    if(timer) clearTimeout(timer)
 }

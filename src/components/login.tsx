@@ -59,7 +59,7 @@ const Login = () => {
               id="password"
               placeholder="Password"
               className="form-control bg-info bg-opacity-10 fw-semibold fs-5"
-              {...register("password", { required: 'password id required' })}
+              {...register("password", { required: 'password is required' })}
             />
             <span className={`${errors.password ? 'new' : 'top-50'} position-absolute end-0 me-3 cursor`} onClick={onpasswordDisplay}>{ hidePwd ? 'Hide' : 'Show'}</span>
             {errors.password &&(

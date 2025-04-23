@@ -21,30 +21,30 @@ const Cart = () => {
     const dispatch = useDispatch();
     const closeModal = useSelector((state: RootState) => state.dismissModal.closeModal);
     const product = useSelector((state: RootState) => state.productReducer.product);
-    const isFiltering = useSelector((state: RootState) => state.filterSlice.isFiltered);
+    const isFiltering = useSelector(
+      (state: RootState) => state.filterSlice.isFiltered
+    );
     const filterSearch = useSelector((state: RootState) => state.filterSlice.productToSearch);
     let close = closeModal;
     let filterState = isFiltering;
     const navigate = useNavigate();
+    let productFromSlice = product;
 
-    const handleAdd = (index: number)=>{
+    const getStoredProduct = () => productFromSlice;
+
+    const handleProductState = (index: number, key: string)=>{
       const singleCart = updatedCart[index];
-      setExistedCartCount(oldCount => oldCount + 1);
-      dispatch(productAdd(singleCart));
-      productValue("PRODUCTITEMS", JSON.stringify(product));
+      key === "INCREAMENT"
+        ? setExistedCartCount((oldCount) => oldCount + 1)
+        : setExistedCartCount((oldCount) => oldCount - 1);
+        dispatch(productAdd(singleCart));
+        productValue("PRODUCTITEMS", JSON.stringify(getStoredProduct()));
     }
 
     const handleDelete = (cartId: number) => {
-      const deleteItem = updatedCart.filter(cart => cart.id !== cartId);
-        // dispatch(productDelete(cartId));
-        productValue("PRODUCTITEMS", JSON.stringify(deleteItem));
-    }
-    const handleSubtract = (index: number)=>{
-       const singleCart = updatedCart[index];
-       setExistedCartCount((oldCount) => oldCount - 1);
-       const cartIndex = product.indexOf(singleCart);
-      //  dispatch(productSubtract(cartIndex));
-       productValue("PRODUCTITEMS", JSON.stringify(product));
+        dispatch(productDelete(cartId));
+        setUpdatedCart(getStoredProduct())
+        productValue("PRODUCTITEMS", JSON.stringify(getStoredProduct()));
     }
 
     const handleCheckOut = () => {
@@ -80,11 +80,11 @@ const Cart = () => {
 
     const getTotalCartPrice = (): number => {
       let totalListPrice = 0;
-      for(let i = 0; i < product.length; i++){
+      for (let i = 0; i < product.length; i++) {
         totalListPrice += product[i].price * existedCartCount;
       }
       return totalListPrice;
-    }
+    };
 
     const handleSearch = (e: FormEvent, search : string) => {
       e.preventDefault();
@@ -101,10 +101,8 @@ const Cart = () => {
     
     useEffect(()=>{
       const init : allProduct[] = [];
-      if (updatedCart.length === 0) {
         getCartList(init);
         setTotalPrice(getTotalCartPrice());
-      }
     }, [])
 
     useEffect(()=>{
@@ -136,9 +134,9 @@ const Cart = () => {
                   key={index}
                   productImage={storedCart.images[0]}
                   productTitle={storedCart.title}
-                  productAdd={() => handleAdd(index)}
+                  productAdd={() => handleProductState(index, "INCREAMENT")}
                   productCount={existedCartCount}
-                  productSubtract={() => handleSubtract(index)}
+                  productSubtract={() => handleProductState(index, "DECREAMENT")}
                   productDelete={() => handleDelete(storedCart.id)}
                   productPrice={storedCart.price}
                 />
@@ -147,7 +145,15 @@ const Cart = () => {
           {!updatedCart.length && (
             <h4 className="text-center">No cart has been added. </h4>
           )}
-          <div className={`${filterSearch.filter(f=> f.title.toLowerCase().includes(searchCharacter.toLowerCase())).length > 0 ? 'd-block': 'd-none'}`}>
+          <div
+            className={`${
+              filterSearch.filter((f) =>
+                f.title.toLowerCase().includes(searchCharacter.toLowerCase())
+              ).length > 0 || totalPrice
+                ? "d-block"
+                : "d-none"
+            }`}
+          >
             <div className="d-flex justify-content-between p-3 align-items-center">
               <h4>Total price</h4>
               <h5>{`$${totalPrice}`}</h5>
