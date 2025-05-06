@@ -3,7 +3,7 @@ import { authUser, userLogin } from '../services/authService';
 import { useForm } from 'react-hook-form';
 
 import { authPayload , setToken} from '../../src/services/localStorage';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [loading, isLoading] = useState<boolean>(false);

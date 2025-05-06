@@ -112,7 +112,7 @@ const Cart = () => {
         setMessage('');
       }, 2000);
       return ()=>clearTimeout(timer);
-    },[product, message])
+    },[product,message])
 
   return (
     <HomeLayout
@@ -135,7 +135,7 @@ const Cart = () => {
                   productImage={storedCart.images[0]}
                   productTitle={storedCart.title}
                   productAdd={() => handleProductState(index, "INCREAMENT")}
-                  productCount={existedCartCount}
+                  productCount={(existedCartCount)}
                   productSubtract={() => handleProductState(index, "DECREAMENT")}
                   productDelete={() => handleDelete(storedCart.id)}
                   productPrice={storedCart.price}

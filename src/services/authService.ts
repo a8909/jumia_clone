@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import { allProduct, categoriesModel } from "../interfaces/allCategories";
 import { getToken, removeAuth } from "./localStorage";
 
@@ -80,7 +80,7 @@ export const singleitemProduct = async(slug: string) =>{
 }
 
 let timer : any;
-const events = ["click", "mousemove", "keypress"];
+const events = ["click", "mousemove", "keypress", "scroll"];
 export const handleLogout = () =>{
     timer = setTimeout(() => {
         events.forEach((event) => {

@@ -17,7 +17,6 @@ import DropModal from "./dropModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../state/store";
 import { setProduct } from "../state/slice/productSlice";
-import { checkLoginActivity, resetTimer } from "../services/authService";
 
 interface clickEvent {
   onClick: (e: FormEvent, search: string) => void;
@@ -62,7 +61,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick, filter }) => {
 
 
   useEffect(() => {
-    checkLoginActivity();
+    // checkLoginActivity();
     dispatch(setProduct(checkStorageState()));
     const parsedPayload = getAuthPayload();
     setName(parsedPayload?.username);
@@ -101,7 +100,7 @@ const SideBar: React.FC<clickEvent> = ({ onClick, filter }) => {
   const onLogout = () => {
     removeAuth();
     navigate("/");
-    resetTimer()
+    // resetTimer()
   };
 
   const home = () => navigate("/dashboard");
